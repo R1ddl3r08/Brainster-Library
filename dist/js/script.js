@@ -9,5 +9,12 @@ $(function(){
         $('#loginModal').addClass('hidden')
     })
 
+    $('#closeLogoutModal').on('click', function(e){
+        $('#logoutModal').addClass('hidden')
+    })
 
+    $('#logoutBtn').on('click', function(e){
+        $('#logoutModal').removeClass('hidden')
+    })
+    
 })

@@ -11,5 +11,10 @@
 }
 
 .form-control{
-    @apply mb-5 w-full p-3 rounded border-2;
+    @apply w-full p-3 rounded border-2;
+    margin-bottom: 0;
+}
+
+.form-group{
+    @apply mb-3;
 }
