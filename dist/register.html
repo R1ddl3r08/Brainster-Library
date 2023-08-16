@@ -36,40 +36,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
-    <script>
-        console.log($('#registerForm'))
-        $('#registerForm').on('submit', function(e){
-            e.preventDefault()
-
-            $('.errorMessage').text('')
-
-            $.ajax({
-                url: "./php/register.php",
-                method: "POST",
-                data: $("#registerForm").serialize(),
-                dataType: "json",
-                success: function(response){
-                    if(response.success){
-                        Swal.fire(
-                            'You registered succesfully!',
-                            'You can now login',
-                            'success'
-                        )
-                        $('input').val('');
-                    } else {
-                        displayErrorMessages(response.messages);
-                    }
-                }
-            })
-        })
-
-        function displayErrorMessages(messages) {
-            for (let field in messages) {
-                if (messages.hasOwnProperty(field)) {
-                    $('#' + field + 'Error').text(messages[field]);
-                }
-            }
-        }
-    </script>
+    <script src="./js/register.js"></script>
 </body>
 </html>

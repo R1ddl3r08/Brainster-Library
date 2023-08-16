@@ -6,8 +6,6 @@ require_once('autoload.php');
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $query = new Database\Query();
 
-    $_SESSION['loggedIn'] = false;
-
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -20,9 +18,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
     if(empty($response['messages'])){
-        $response['role'] = $query->checkRole($username);
+        $userRole = $query->checkRole($username);
+        $response['role'] = $userRole;
         $response['loggedIn'] = true;
         $_SESSION['loggedIn'] = true;
+        $_SESSION['role'] = $userRole;
     }
 
     header("Content-Type: application/json");

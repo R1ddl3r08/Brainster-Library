@@ -1,6 +1,5 @@
 $(function(){
 
-
     $('#loginBtn').on('click', function(e){
         $('#loginModal').removeClass('hidden')
     })
@@ -16,5 +15,6 @@ $(function(){
     $('#logoutBtn').on('click', function(e){
         $('#logoutModal').removeClass('hidden')
     })
+
     
 })

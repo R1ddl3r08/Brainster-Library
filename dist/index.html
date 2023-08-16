@@ -8,17 +8,13 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <nav class="bg-black p-9 relative">
+    <nav class="bg-black p-9 fixed w-full z-40 top-0">
         <h1 class="text-yellow-400 uppercase text-4xl font-bold tracking-wider text-center"><a href="index.html">Brainster Library</a></h1>
-        <a href="#" class="btn absolute top-10 right-10" id="loginBtn">Login</a>
-        <a href="#" class="btn absolute top-10 right-10" id="logoutBtn">Logout</a>
+        <button href="#" class="btn absolute top-10 right-10" id="loginBtn">Login</button>
+        <button href="#" class="btn absolute top-10 right-10" id="logoutBtn">Logout</button>
+        <a href="./dashboard.php" class="btn absolute top-10 right-40" id="dashboardBtn">Dashboard</a>
     </nav>
-    <div class="grid grid-cols-5">
-        <div class="col-span-1 bg-yellow-400 h-screen">
-            <h3 class="text-center font-bold text-xl mt-3">Browse by category</h3>
-        </div>
-    </div>
-    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" id="loginModal">
+    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="loginModal">
         <div class="bg-white p-8 rounded-lg w-2/5">
             <h2 class="text-2xl font-bold mb-4">Login</h2>
             <form action="./php/login.php" method="POST" id="loginForm">
@@ -36,7 +32,7 @@
             <a href="register.html" class="mt-5 inline-block btn">Don't have an account? Register here!</a>
         </div>
     </div>
-    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" id="logoutModal">
+    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="logoutModal">
         <div class="bg-white p-8 rounded-lg w-2/5">
             <h2 class="text-xl font-bold mb-5">Are you sure you want to log out?</h2>
             <form action="" id="logoutForm">
@@ -46,78 +42,31 @@
         </div>
     </div>
 
+
+    <div id="index" class="hidden">
+        <div class="bg-yellow-400 h-screen overflow-y-auto fixed top-0 bottom-0 left-0 w-1/5 z-30 mt-28">
+            <h3 class="text-center font-bold text-xl mt-3">Browse by category</h3>
+            <div class="mt-5 w-2/3 mx-auto max-h-3/4 overflow-y-auto" id="categoriesCont"></div>
+        </div>
+        <div class="p-10 ml-72 w-4/5">
+            <div class="mt-28 w-full flex flex-wrap" id="booksCont"></div>
+        </div>
+    </div>
+
+    <div id="book" class="hidden">
+        <div class="w-2/3 mx-auto grid grid-cols-4 mt-32">
+            <div id="imageCont" class="col-span-1"></div>
+            <div id="infoCont" class="col-span-3 ml-5"></div>
+        </div>
+        <div id="commentsCont" class="mt-10 w-2/3 mx-auto">
+            <h2 class="text-3xl font-bold">Users comments about the book:</h2>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script src="./js/script.js"></script>
-    <script>
-        $(document).ready(function(){
-
-            $.ajax({
-                url: "./php/checkLoginStatus.php",
-                method: "GET",
-                dataType: "json",
-                success: function(response) {
-                    handleLoginResponse(response);
-                }
-            });
-
-            $('#loginForm').on('submit', function(e){
-                e.preventDefault()
-
-                $('.errorMessage').text('')
-
-                $.ajax({
-                    url: "./php/login.php",
-                    method: "POST",
-                    data: $("#loginForm").serialize(),
-                    dataType: "json",
-                    success: function(response){
-                        if(response.loggedIn){
-                            Swal.fire(
-                                `Successfully logged in as ${response.role}`,
-                                '',
-                                'success'
-                            )
-                            $('input').val('');
-                            handleLoginResponse(response);
-                            $('#loginModal').addClass('hidden')
-                        } else {
-                            displayErrorMessages(response.messages);
-                        }
-                    }
-                })
-            })
-
-            $('#logoutForm').on('submit', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "./php/logout.php",
-                    method: "POST",
-                    dataType: "json",
-                    success: function(response) {
-                        handleLoginResponse(response);
-                        $('#logoutModal').addClass('hidden')
-                    }
-                });
-            });
-
-            function displayErrorMessages(messages) {
-                for (let field in messages) {
-                    if (messages.hasOwnProperty(field)) {
-                        $('#' + field + 'Error').text(messages[field]);
-                    }
-                }
-            }
-
-            function handleLoginResponse(response) {
-                if (response.loggedIn) {
-                    $('#loginBtn').hide();
-                    $('#logoutBtn').show();
-                } else {
-                    $('#loginBtn').show();
-                    $('#logoutBtn').hide();
-                }
-            }
-        })
-    </script>
+    <script src="./js/login.js"></script>
+    <script src="./js/fetchInfo.js"></script>
+    <script src="./js/hashchange.js"></script>
 </body>
 </html>

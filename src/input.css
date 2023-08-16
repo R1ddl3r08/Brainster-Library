@@ -18,3 +18,7 @@
 .form-group{
     @apply mb-3;
 }
+
+.category-label{
+    @apply flex p-3
+}
