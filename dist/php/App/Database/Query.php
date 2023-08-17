@@ -55,7 +55,7 @@ class Query
         return false;
     }
 
-    public function checkRole($username)
+    public function getUser($username)
     {
         $sql = "SELECT * FROM users WHERE username=:username";
 
@@ -65,7 +65,7 @@ class Query
 
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        return $user['role'];
+        return $user;
     }
 
     public function getAll($tableName)
@@ -281,7 +281,66 @@ class Query
     }
 
 
+    // Reviews
+    public function addReview($userId, $bookId, $comment)
+    {
+        $sql = "INSERT INTO public_comments (user_id, book_id, comment)
+                VALUES (:userId, :bookId, :comment)";
 
+        $data = [
+            ':userId' => $userId,
+            ':bookId' => $bookId,
+            ':comment' => $comment,
+        ];
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute($data);
+    }
+
+    public function validateReview($userId, $bookId)
+    {
+        $sql = "SELECT * FROM public_comments WHERE user_id = :userId";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_STR);
+        $stmt->execute();
+
+        $comment = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if(empty($comment)){
+            return true;
+        }
+
+        if($comment['book_id'] == $bookId){
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getReviews($status)
+    {
+        if($status === 'approved'){
+            $condition = "is_approved = 1";
+        } elseif($status === 'rejected'){
+            $condition = "is_approved = 0";
+        } elseif($status === 'pending'){
+            $condition = "is_approved IS NULL";
+        }
+
+        $sql = $sql = "SELECT pc.*, u.username, b.title
+        FROM public_comments pc
+        LEFT JOIN users u ON pc.user_id = u.id
+        LEFT JOIN books b ON pc.book_id = b.id
+        WHERE $condition";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+
+        $reviews = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $reviews;
+    }
 
 }
 

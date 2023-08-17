@@ -7,6 +7,8 @@ require_once('php/autoload.php');
 // }
 
 $query = new Database\Query();
+$pendingReviews = $query->getReviews('pending');
+$rejectedReviews = $query->getReviews('rejected');
 $books = $query->getBooks();
 $authors = $query->getAll('authors');
 $categories = $query->getAll('categories');
@@ -31,12 +33,99 @@ $categories = $query->getAll('categories');
     </nav>
     <div class="w-11/12 mx-auto">
         <div class="mt-32">
-            <div class="booksContainer">
-                <div class="flex">
-                    <h2 class="text-2xl font-bold m-2 mr-10">Books</h2>
-                    <button class="bg-blue-500 rounded text-white font-bold py-2 px-4 hover:bg-blue-400" id="addBookBtn">Add a book</button>
+
+            <div id="dashboard" class="w-1/2 mx-auto">
+                <div class="mb-10 flex justify-between">
+                    <button id="openPendingReviewsBtn" class="p-5 rounded bg-yellow-500 hover:bg-yellow-600">
+                        <h2 class="text-3xl font-bold text-white">Pending reviews</h2>
+                    </button>
+                    <button id="openRejectedReviewsBtn" class="p-5 rounded bg-red-500 hover:bg-red-600">
+                        <h2 class="text-3xl font-bold text-white">Rejected reviews</h2>
+                    </button>
                 </div>
-                <div class="h-96 overflow-y-scroll">
+                <div class="flex justify-between">
+                    <button id="openBooksBtn" class="p-5 rounded bg-blue-500 hover:bg-blue-600">
+                        <h2 class="text-3xl font-bold text-white">Books</h2>
+                    </button>
+                    <button id="openCategoriesBtn" class="p-5 rounded bg-green-500 hover:bg-green-600">
+                        <h2 class="text-3xl font-bold text-white">Categories</h2>
+                    </button>
+                    <button id="openAuthorsBtn" class="p-5 rounded bg-red-700 hover:bg-red-800">
+                        <h2 class="text-3xl font-bold text-white">Authors</h2>
+                    </button>
+                </div>
+            </div>
+
+            <div id="pendingReviewsContainer">
+                <div class="flex mb-5">
+                    <h2 class="text-2xl font-bold m-2 mr-10">Pending Reviews</h2>
+                    <button class="btn goBackBtn">Back</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Book</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comment</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($pendingReviews as $review) : ?>
+                            <tr class="border-t border-gray-200">
+                                <td class="px-6 py-4"><?= $review['id'] ?></td>
+                                <td class="px-6 py-4"><?= $review['username'] ?></td>
+                                <td class="px-6 py-4"><?= $review['title'] ?></td>
+                                <td class="px-6 py-4"><?= $review['comment'] ?></td>
+                                <td class="px-6 py-4">
+                                    <button class="bg-green-500 rounded text-white font-bold py-2 px-4 hover:bg-green-600 editBookBtn" data-review-id="<?= $review['id'] ?>">Approve</button>
+                                    <button class="bg-red-500 rounded text-white font-bold py-2 px-4 hover:bg-red-700 deleteBookBtn" data-review-id="<?= $review['id'] ?>">Reject</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="rejectedReviewsContainer">
+                <div class="flex mb-5">
+                    <h2 class="text-2xl font-bold m-2 mr-10">Rejected Reviews</h2>
+                    <button class="btn goBackBtn">Back</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Book</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comment</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($rejectedReviews as $review) : ?>
+                            <tr class="border-t border-gray-200">
+                                <td class="px-6 py-4"><?= $review['id'] ?></td>
+                                <td class="px-6 py-4"><?= $review['username'] ?></td>
+                                <td class="px-6 py-4"><?= $review['title'] ?></td>
+                                <td class="px-6 py-4"><?= $review['comment'] ?></td>
+                                <td class="px-6 py-4">
+                                    <button class="bg-green-500 rounded text-white font-bold py-2 px-4 hover:bg-green-600 editBookBtn" data-review-id="<?= $review['id'] ?>">Approve</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="booksCrudContainer" class="mt-5 hidden">
+                <div class="flex mb-5">
+                    <h2 class="text-2xl font-bold m-2 mr-10">Books</h2>
+                    <button class="bg-blue-500 rounded text-white font-bold py-2 px-4 hover:bg-blue-400 mr-10" id="addBookBtn">Add a book</button>
+                    <button class="btn goBackBtn">Back</button>
+                </div>
+                <div>
                     <table class="bg-white border rounded mt-2">
                         <thead>
                             <tr class="bg-gray-100">
@@ -70,12 +159,13 @@ $categories = $query->getAll('categories');
                     </table>
                 </div>
             </div>
-            <div class="mt-5">
-                <div class="flex">
+            <div id="authorsCrudContainer" class="mt-5 hidden">
+                <div class="flex mb-5">
                     <h2 class="text-2xl font-bold m-2 mr-10">Authors</h2>
-                    <button class="bg-blue-500 rounded text-white font-bold py-2 px-4 hover:bg-blue-400" id="addAuthorBtn">Add an author</button>
+                    <button class="bg-blue-500 rounded text-white font-bold py-2 px-4 hover:bg-blue-400 mr-10" id="addAuthorBtn">Add an author</button>
+                    <button class="btn goBackBtn">Back</button>
                 </div>
-                <div class="h-96 overflow-y-scroll inline-block">
+                <div>
                     <table class="bg-white border rounded overflow-y-scroll mt-2">
                         <thead>
                             <tr class="bg-gray-100">
@@ -102,12 +192,13 @@ $categories = $query->getAll('categories');
                     </table>
                 </div>
             </div>
-            <div class="mt-5">
-                <div class="flex">
+            <div id="categoriesCrudContainer" class="mt-5 hidden">
+                <div class="flex mb-5">
                     <h2 class="text-2xl font-bold m-2 mr-10">Categories</h2>
-                    <button class="bg-blue-500 rounded text-white font-bold py-2 px-4 hover:bg-blue-400" id="addCategoryBtn">Add a category</button>
+                    <button class="bg-blue-500 rounded text-white font-bold py-2 px-4 hover:bg-blue-400 mr-10" id="addCategoryBtn">Add a category</button>
+                    <button class="btn goBackBtn">Back</button>
                 </div>
-                <div class="h-96 overflow-y-scroll inline-block">
+                <div>
                     <table class="bg-white border rounded overflow-y-scroll mt-2">
                         <thead>
                             <tr class="bg-gray-100">
@@ -284,7 +375,7 @@ $categories = $query->getAll('categories');
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/login.js"></script>
-    <script src="./js/hashchange.js"></script>
     <script src="./js/crudModal.js"></script>
+    <script src="./js/dashboardHashchange.js"></script>
 </body>
 </html>

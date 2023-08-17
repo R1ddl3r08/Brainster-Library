@@ -18,11 +18,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
     if(empty($response['messages'])){
-        $userRole = $query->checkRole($username);
-        $response['role'] = $userRole;
+        $user = $query->getUser($username);
+        $response['role'] = $user['role'];
+        $response['userId'] = $user['id'];
         $response['loggedIn'] = true;
         $_SESSION['loggedIn'] = true;
-        $_SESSION['role'] = $userRole;
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['userId'] = $user['id'];
     }
 
     header("Content-Type: application/json");
