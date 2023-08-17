@@ -20,7 +20,6 @@ $(function(){
             data: $("#loginForm").serialize(),
             dataType: "json",
             success: function(response){
-                console.log(response.role)
                 if(response.loggedIn){
                     Swal.fire(
                         `Successfully logged in as ${response.role}`,
