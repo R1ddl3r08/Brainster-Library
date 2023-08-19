@@ -1,5 +1,5 @@
-$(function(){
 
+$(function(){
     $.ajax({
         url: "./php/checkLoginStatus.php",
         method: "GET",
@@ -8,6 +8,7 @@ $(function(){
             handleLoginResponse(response)
         }
     })
+
 
     $('#loginForm').on('submit', function(e){
         e.preventDefault()
@@ -45,6 +46,7 @@ $(function(){
             success: function(response) {
                 handleLoginResponse(response)
                 $('#logoutModal').addClass('hidden')
+                window.location.href = 'index.html';
             }
         });
     });
@@ -63,15 +65,18 @@ $(function(){
                 $('#dashboardBtn').show()
                 $('#loginBtn').hide()
                 $('#logoutBtn').show()
+                $('#yourCommentsBtn').hide()
             } else {
                 $('#dashboardBtn').hide()
                 $('#loginBtn').hide()
                 $('#logoutBtn').show()
+                $('#yourCommentsBtn').show()
             }
         } else {
             $('#loginBtn').show()
             $('#dashboardBtn').hide()
             $('#logoutBtn').hide()
+            $('#yourCommentsBtn').hide()
         }
     }
 })

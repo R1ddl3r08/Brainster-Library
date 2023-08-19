@@ -329,11 +329,6 @@ $(function(){
 
 
 
-
-
-
-
-
     $('.closeBooksCrudModal').on('click', function(){
         $('#booksCrudModal').addClass('hidden')
     })
@@ -343,6 +338,6 @@ $(function(){
     })
 
     $('.closeAuthorsCrudModal').on('click', function(){
-        $('#categoriesCrudModal').addClass('hidden')
+        $('#authorsCrudModal').addClass('hidden')
     })
 })

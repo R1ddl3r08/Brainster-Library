@@ -342,6 +342,135 @@ class Query
         return $reviews;
     }
 
+    public function getReviewsByUser($userId)
+    {
+        $sql = "SELECT pc.*, u.username, b.title
+        FROM public_comments pc
+        LEFT JOIN users u ON pc.user_id = u.id
+        LEFT JOIN books b ON pc.book_id = b.id
+        WHERE user_id=:userId";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $reviews = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $reviews;
+    }
+
+    public function getReviewsByBook($bookId)
+    {
+        $sql = "SELECT pc.*, u.username, b.title
+        FROM public_comments pc
+        LEFT JOIN users u ON pc.user_id = u.id
+        LEFT JOIN books b ON pc.book_id = b.id
+        WHERE book_id=:bookId AND is_approved=1";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':bookId', $bookId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $reviews = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $reviews;
+    }
+
+    public function changeReviewStatus($status, $reviewId)
+    {
+        $sql = "UPDATE public_comments SET is_approved = :status WHERE id = :reviewId";
+        
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':status', $status, \PDO::PARAM_INT);
+        $stmt->bindParam(':reviewId', $reviewId, \PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public function deleteReview($reviewId)
+    {
+        $sql = "DELETE FROM public_comments WHERE id=:id";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':id', $reviewId, \PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+
+    // Notes
+    public function addNote($userId, $bookId, $note)
+    {
+        $sql = "INSERT INTO private_notes (user_id, book_id, note)
+                VALUES (:userId, :bookId, :note)";
+
+        $data = [
+            ':userId' => $userId,
+            ':bookId' => $bookId,
+            ':note' => $note,
+        ];
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute($data);
+    }
+
+    public function getNotesByUserAndBook($userId, $bookId)
+    {
+        $sql = "SELECT * FROM private_notes WHERE user_id=:userId AND book_id=:bookId";
+
+        $data = [
+            ':userId' => $userId,
+            ':bookId' => $bookId
+        ];
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute($data);
+
+        $notes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $notes;
+    }
+
+    public function getNotesByUser($userId)
+    {
+        $sql = "SELECT pn.*, u.username, b.title
+        FROM private_notes pn
+        LEFT JOIN users u ON pn.user_id = u.id
+        LEFT JOIN books b ON pn.book_id = b.id
+        WHERE user_id=:userId";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $notes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $notes;
+    }
+
+    public function deleteNote($noteId)
+    {
+        $sql = "DELETE FROM private_notes WHERE id=:id";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':id', $noteId, \PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public function editNote($noteId, $note)
+    {
+        $sql = "UPDATE private_notes SET note = :note WHERE id = :id";
+
+        $data = [
+            ':note' => $note,
+            ':id' => $noteId
+        ];
+
+        $stmt = $this->connection->prepare($sql);
+        return $stmt->execute($data);
+    }
+
 }
 
 

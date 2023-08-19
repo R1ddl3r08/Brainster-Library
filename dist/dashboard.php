@@ -1,10 +1,10 @@
 <?php
 require_once('php/autoload.php');
 
-// if (!($_SESSION['loggedIn'] && $_SESSION['role'] == 'admin')) {
-//     echo "Access denied";
-//     die();
-// }
+if (!($_SESSION['loggedIn'] && $_SESSION['role'] == 'admin')) {
+    echo "Access denied";
+    die();
+}
 
 $query = new Database\Query();
 $pendingReviews = $query->getReviews('pending');
@@ -79,8 +79,8 @@ $categories = $query->getAll('categories');
                                 <td class="px-6 py-4"><?= $review['title'] ?></td>
                                 <td class="px-6 py-4"><?= $review['comment'] ?></td>
                                 <td class="px-6 py-4">
-                                    <button class="bg-green-500 rounded text-white font-bold py-2 px-4 hover:bg-green-600 editBookBtn" data-review-id="<?= $review['id'] ?>">Approve</button>
-                                    <button class="bg-red-500 rounded text-white font-bold py-2 px-4 hover:bg-red-700 deleteBookBtn" data-review-id="<?= $review['id'] ?>">Reject</button>
+                                    <button class="bg-green-500 rounded text-white font-bold py-2 px-4 hover:bg-green-600 approveReviewBtn" data-review-id="<?= $review['id'] ?>">Approve</button>
+                                    <button class="bg-red-500 rounded text-white font-bold py-2 px-4 hover:bg-red-700 rejectReviewBtn" data-review-id="<?= $review['id'] ?>">Reject</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -111,7 +111,7 @@ $categories = $query->getAll('categories');
                                 <td class="px-6 py-4"><?= $review['title'] ?></td>
                                 <td class="px-6 py-4"><?= $review['comment'] ?></td>
                                 <td class="px-6 py-4">
-                                    <button class="bg-green-500 rounded text-white font-bold py-2 px-4 hover:bg-green-600 editBookBtn" data-review-id="<?= $review['id'] ?>">Approve</button>
+                                    <button class="bg-green-500 rounded text-white font-bold py-2 px-4 hover:bg-green-600 approveReviewBtn" data-review-id="<?= $review['id'] ?>">Approve</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -377,5 +377,6 @@ $categories = $query->getAll('categories');
     <script src="./js/login.js"></script>
     <script src="./js/crudModal.js"></script>
     <script src="./js/dashboardHashchange.js"></script>
+    <script src="./js/changeReviewStatus.js"></script>
 </body>
 </html>
