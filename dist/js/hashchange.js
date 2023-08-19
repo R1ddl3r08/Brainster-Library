@@ -30,13 +30,76 @@ $(function(){
                             <p>Number of pages: <span class="font-semibold">${bookDetails.number_of_pages}</span></p>
                             <p class="mb-5">Publication year: <span class="font-semibold">${bookDetails.publication_year}</span></p>
                             <button class="btn" id="reviewBtn">Leave a review</button>
+                            <button class="btn" id="noteBtn">Note</button>
                         `)
-                        console.log(response)
                     }
-
-                    console.log(response)
                 } 
             });
+
+            $.ajax({
+                type: 'GET',
+                url: './php/reviews/getReviewsByBook.php',
+                data: { bookId: idNumber },
+                dataType: 'json',
+                success: function(response) {
+                    let commentsCont = document.getElementById('commentsCont')
+                    commentsCont.innerHTML = ''
+                    if (response.length > 0) {
+                        response.forEach(function(review) {
+                            const div = document.createElement('div')
+                            div.className = 'bg-gray-600 p-4 rounded mb-4'
+                            div.innerHTML = `
+                                <h3 class="text-yellow-400 text-xl font-bold mb-2">${review.username}:</h3>
+                                <p class="text-white">${review.comment}</p>
+                            `
+                            commentsCont.appendChild(div)
+                        })
+                    } else {
+                        const messageDiv = document.createElement('div')
+                        messageDiv.className = 'bg-gray-600 p-4 rounded text-white'
+                        messageDiv.textContent = 'No reviews yet.'
+                        commentsCont.appendChild(messageDiv)
+                    }
+                }
+            })      
+            
+            $.ajax({
+                type: 'GET',
+                url: './php/checkLoginStatus.php',
+                dataType: 'json',
+                success: function(response){
+                    if(response.loggedIn){
+                        $('#notesDiv').removeClass('hidden')
+                        $.ajax({
+                            type: 'GET',
+                            url: './php/notes/getNotesByUserAndBook.php',
+                            data: { bookId: idNumber, userId: response.userId },
+                            dataType: 'json',
+                            success: function(response) {
+                                let notesCont = document.getElementById('notesCont')
+                                notesCont.innerHTML = ''
+                                if (response.length > 0) {
+                                    response.forEach(function(note) {
+                                        const div = document.createElement('div')
+                                        div.className = 'bg-gray-400 p-4 rounded mb-4'
+                                        div.innerHTML = `
+                                            <p class="text-white">${note.note}</p>
+                                        `
+                                        notesCont.appendChild(div)
+                                    })
+                                } else {
+                                    const messageDiv = document.createElement('div')
+                                    messageDiv.className = 'bg-gray-400 p-4 rounded text-white'
+                                    messageDiv.textContent = 'You have no notes for this book.'
+                                    notesCont.appendChild(messageDiv)
+                                }
+                            }
+                        })      
+                    } else {
+                        $('#notesDiv').addClass('hidden')
+                    }
+                }
+            })
         }
     }
 

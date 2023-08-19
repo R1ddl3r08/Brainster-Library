@@ -13,6 +13,7 @@
         <button href="#" class="btn absolute top-10 right-10" id="loginBtn">Login</button>
         <button href="#" class="btn absolute top-10 right-10" id="logoutBtn">Logout</button>
         <a href="./dashboard.php" class="btn absolute top-10 right-40" id="dashboardBtn">Dashboard</a>
+        <a href="./yourComments.html" class="btn absolute top-10 right-40" id="yourCommentsBtn">Your comments</a>
     </nav>
     <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="loginModal">
         <div class="bg-white p-8 rounded-lg w-2/5">
@@ -44,7 +45,7 @@
 
 
     <div id="index" class="hidden">
-        <div class="bg-yellow-400 h-screen overflow-y-auto fixed top-0 bottom-0 left-0 w-1/5 z-30 mt-28">
+        <div class="bg-yellow-400 h-screen overflow-y-auto fixed top-0 bottom-0 left-0 w-72 z-30 mt-28">
             <h3 class="text-center font-bold text-xl mt-3">Browse by category</h3>
             <div class="mt-5 w-2/3 mx-auto max-h-3/4 overflow-y-auto" id="categoriesCont"></div>
         </div>
@@ -58,8 +59,17 @@
             <div id="imageCont" class="col-span-1"></div>
             <div id="infoCont" class="col-span-3 ml-5"></div>
         </div>
-        <div id="commentsCont" class="mt-10 w-2/3 mx-auto">
-            <h2 class="text-3xl font-bold">Users comments about the book:</h2>
+        <div class="mt-10 w-2/3 mx-auto flex" id="commentsDiv">
+           <div>
+                <h2 class="text-3xl font-bold mb-5">Users comments about the book:</h2>
+                <div id="commentsCont">
+                </div>
+           </div>
+           <div class="ml-24 hidden" id="notesDiv">
+                <h2 class="text-3xl font-bold mb-5">Your notes: </h2>
+                <div id="notesCont">
+                </div>
+            </div>
         </div>
         <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="reviewModal">
             <div class="bg-white p-8 rounded-lg w-2/5">
@@ -73,6 +83,22 @@
                     <input type="number" name="userId" hidden>
                     <button class="btn" type="submit">Submit</button>
                     <button class="ml-2 text-gray-600" id="closeReviewModal" type="button">Close</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="noteModal">
+            <div class="bg-white p-8 rounded-lg w-2/5">
+                <h2 class="text-xl font-bold mb-5">Leave a note about this book</h2>
+                <form action="" id="noteForm">
+                    <span id="noteErrorMessage" class="text-red-700 font-semibold mb-3 hidden">You need to be logged in to leave a note!</span>
+                    <div class="form-group">
+                        <textarea name="note" cols="50" rows="5" class="form-control" placeholder="Your comment here..."></textarea>
+                    </div>
+                    <input type="number" name="bookId" hidden>
+                    <input type="number" name="userId" hidden>
+                    <button class="btn" type="submit">Submit</button>
+                    <button class="ml-2 text-gray-600" id="closeNoteModal" type="button">Close</button>
                 </form>
             </div>
         </div>
