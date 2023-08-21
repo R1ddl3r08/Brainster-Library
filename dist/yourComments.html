@@ -8,75 +8,85 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-yellow-400">
-    <nav class="bg-black p-9 fixed w-full z-40 top-0">
-        <h1 class="text-yellow-400 uppercase text-4xl font-bold tracking-wider text-center"><a href="index.html">Brainster Library</a></h1>
-        <button href="#" class="btn absolute top-10 right-10" id="loginBtn">Login</button>
-        <button href="#" class="btn absolute top-10 right-10" id="logoutBtn">Logout</button>
-        <a href="./dashboard.php" class="btn absolute top-10 right-40" id="dashboardBtn">Dashboard</a>
-        <a href="./yourComments.html" class="btn absolute top-10 right-40" id="yourCommentsBtn">Your comments</a>
-    </nav>
-
-    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="logoutModal">
-        <div class="bg-white p-8 rounded-lg w-2/5">
-            <h2 class="text-xl font-bold mb-5">Are you sure you want to log out?</h2>
-            <form action="" id="logoutForm">
-                <button class="btn" type="submit">Logout</button>
-                <button class="ml-2 text-gray-600" id="closeLogoutModal" type="button">Close</button>
-            </form>
+    <div class="min-h-screen flex flex-col">
+        <nav class="bg-black p-9 fixed w-full z-40 top-0">
+            <h1 class="text-yellow-400 uppercase text-4xl font-bold tracking-wider text-center"><a href="index.html">Brainster Library</a></h1>
+            <button href="#" class="btn absolute top-10 right-10" id="loginBtn">Login</button>
+            <button href="#" class="btn absolute top-10 right-10" id="logoutBtn">Logout</button>
+            <a href="./dashboard.php" class="btn absolute top-10 right-40" id="dashboardBtn">Dashboard</a>
+            <a href="./yourComments.html" class="btn absolute top-10 right-40" id="yourCommentsBtn">Your comments</a>
+        </nav>
+    
+        <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="logoutModal">
+            <div class="bg-white p-8 rounded-lg w-2/5">
+                <h2 class="text-xl font-bold mb-5">Are you sure you want to log out?</h2>
+                <form action="" id="logoutForm">
+                    <button class="btn" type="submit">Logout</button>
+                    <button class="ml-2 text-gray-600" id="closeLogoutModal" type="button">Close</button>
+                </form>
+            </div>
         </div>
-    </div>
-
-    <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="editNoteModal">
-        <div class="bg-white p-8 rounded-lg w-2/5">
-            <h2 class="text-xl font-bold mb-5">Edit note</h2>
-            <form action="" id="editNoteForm">
-                <span id="noteErrorMessage" class="text-red-700 font-semibold mb-3">You need to be logged in to leave a note!</span>
-                <div class="form-group">
-                    <textarea name="note" cols="50" rows="5" class="form-control" placeholder="Your comment here..."></textarea>
+    
+        <div class="modal-overlay hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="editNoteModal">
+            <div class="bg-white p-8 rounded-lg w-2/5">
+                <h2 class="text-xl font-bold mb-5">Edit note</h2>
+                <form action="" id="editNoteForm">
+                    <span id="noteErrorMessage" class="text-red-700 font-semibold mb-3">You need to be logged in to leave a note!</span>
+                    <div class="form-group">
+                        <textarea name="note" cols="50" rows="5" class="form-control" placeholder="Your comment here..."></textarea>
+                    </div>
+                    <input type="number" name="noteId" hidden>
+                    <button class="btn" type="submit">Submit</button>
+                    <button class="ml-2 text-gray-600" id="closeNoteModal" type="button">Close</button>
+                </form>
+            </div>
+        </div>
+    
+        <div class="w-11/12 mx-auto">
+            <div class="mt-32">
+                <div>
+                    <h2 class="text-2xl font-bold">Your public reviews</h2>
+                    <table class="mt-7 border-2 border-gray-500">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Book</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Comment</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userReviews" class="bg-gray-200">
+                        </tbody>
+                    </table>
                 </div>
-                <input type="number" name="noteId" hidden>
-                <button class="btn" type="submit">Submit</button>
-                <button class="ml-2 text-gray-600" id="closeNoteModal" type="button">Close</button>
-            </form>
+                <div class="mt-10">
+                    <h2 class="text-2xl font-bold">Your private notes</h2>
+                    <table class="mt-7 border-2 border-gray-500">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Book</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Note</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userNotes" class="bg-gray-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+    
+        <footer class="mt-auto">
+            <div class="p-5 bg-gray-800">
+                <p class="text-center text-white quote">Some random quote</p>
+            </div>
+        </footer>
     </div>
 
-    <div class="w-11/12 mx-auto">
-        <div class="mt-32">
-            <div>
-                <h2 class="text-2xl font-bold">Your public reviews</h2>
-                <table class="mt-7 border-2 border-gray-500">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Book</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Comment</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userReviews" class="bg-gray-200">
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-10">
-                <h2 class="text-2xl font-bold">Your private notes</h2>
-                <table class="mt-7 border-2 border-gray-500">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Book</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Note</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium bg-black text-yellow-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userNotes" class="bg-gray-200">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/login.js"></script>
     <script src="./js/userComments.js"></script>
+    <script src="./js/randomQuotes.js"></script>
 </body>
 </html>
