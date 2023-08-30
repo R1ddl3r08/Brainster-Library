@@ -77,6 +77,8 @@ $(function(){
                         'success'
                     )
                     $('#booksCrudModal').addClass('hidden')
+                } else {
+                    $('#editBookErrorMessage').show()
                 }
             }
         });
@@ -103,6 +105,7 @@ $(function(){
                     dataType: "json",
                     success: function(response) {
                         if(response.success){
+                            $(`.deleteBookBtn[data-book-id='${bookId}']`).closest('tr').remove();
                             Swal.fire('Deleted!', 'The book has been deleted.', 'success');
                             $('#booksCrudModal').addClass('hidden')
                         }
@@ -118,6 +121,7 @@ $(function(){
         $('#addAuthorForm').removeClass('hidden')
         $('#editAuthorForm').addClass('hidden')
         $('#authorsCrudModalTitle').text('Add author')
+        $("#addAuthorForm")[0].reset()
     })
 
     $('#addAuthorForm').on('submit', function(e){
@@ -163,7 +167,7 @@ $(function(){
                     $('input[name="authorId"]').val(author.id)
                     $('input[name="firstName"]').val(author.first_name)
                     $('input[name="lastName"]').val(author.last_name)
-                    $('input[name="shortBio"]').val(author.short_bio)
+                    $('textarea[name="shortBio"]').val(author.short_bio)
                 }
             } 
         });
@@ -178,7 +182,6 @@ $(function(){
             data: $("#editAuthorForm").serialize(),
             dataType: "json",
             success: function(response) {
-                console.log("success")
                 if(response.success){
                     Swal.fire(
                         `Author updated`,
@@ -186,6 +189,8 @@ $(function(){
                         'success'
                     )
                     $('#authorsCrudModal').addClass('hidden')
+                } else {
+                    $('#editAuthorErrorMessage').show()
                 }
             }
         });
@@ -211,6 +216,7 @@ $(function(){
                     dataType: "json",
                     success: function(response) {
                         if(response.success){
+                            $(`.deleteAuthorBtn[data-author-id='${authorId}']`).closest('tr').remove();
                             Swal.fire('Deleted!', 'The author has been deleted.', 'success');
                             $('#authorsCrudModal').addClass('hidden')
                         }
@@ -244,7 +250,7 @@ $(function(){
                     )
                     $('#categoriesCrudModal').addClass('hidden')
                 } else {
-                    $('#addCategoriesError').show()
+                    $('#addCategoriesErrorMessage').show()
                 }
             }
         });
@@ -292,6 +298,8 @@ $(function(){
                         'success'
                     )
                     $('#categoriesCrudModal').addClass('hidden')
+                } else {
+                    $('#editCategoriesErrorMessage').show()
                 }
             }
         });
@@ -317,6 +325,7 @@ $(function(){
                     dataType: "json",
                     success: function(response) {
                         if(response.success){
+                            $(`.deleteCategoryBtn[data-category-id='${categoryId}']`).closest('tr').remove();
                             Swal.fire('Deleted!', 'The category has been deleted.', 'success');
                             $('#categoriesCrudModal').addClass('hidden')
                         }

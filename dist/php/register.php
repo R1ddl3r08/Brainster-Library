@@ -17,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $response['messages']['email'] = 'Email is required';
     } elseif ($query->userExists('email', $email)) {
         $response['messages']['email'] = 'The email is already in use';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $response['messages']['email'] = 'Please enter a valid email';
     }
     
     if(empty($username)){

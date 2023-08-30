@@ -1,3 +1,14 @@
+$.ajax({
+    type: 'GET',
+    url: './php/checkLoginStatus.php',
+    dataType: 'json',
+    success: function(response) {
+        if (!response.loggedIn || response.role !== 'client') {
+            document.body.innerHTML = '<h1>Access Denied: You must be logged in to access this page.</h1>';
+        }
+    },
+});
+
 $(function(){
 
     // User Reviews

@@ -68,7 +68,7 @@ $(function(){
                 url: './php/checkLoginStatus.php',
                 dataType: 'json',
                 success: function(response){
-                    if(response.loggedIn){
+                    if(response.loggedIn && response.role == 'client'){
                         $('#notesDiv').removeClass('hidden')
                         $.ajax({
                             type: 'GET',
