@@ -29,7 +29,7 @@ $(function(){
             url: './php/checkLoginStatus.php',
             dataType: 'json',
             success: function(response){
-                if(response.loggedIn){
+                if(response.loggedIn && response.role == 'client'){
                     $('input[name="userId"]').val(response.userId)
                     $('input[name="bookId"]').val(bookId)
                     $.ajax({
@@ -56,7 +56,7 @@ $(function(){
                     });
                 } else {
                     $('#reviewErrorMessage').removeClass('hidden')
-                    $('#reviewErrorMessage').text('You must be logged in to leave a review!')
+                    $('#reviewErrorMessage').text('You must be logged in as a client to leave a review!')
                 }
             } 
         })
@@ -73,7 +73,7 @@ $(function(){
             url: './php/checkLoginStatus.php',
             dataType: 'json',
             success: function(response){
-                if(response.loggedIn){
+                if(response.loggedIn && response.role == 'client'){
                     $('input[name="userId"]').val(response.userId)
                     $('input[name="bookId"]').val(bookId)
                     $.ajax({
@@ -100,7 +100,7 @@ $(function(){
                     });
                 } else {
                     $('#noteErrorMessage').removeClass('hidden')
-                    $('#noteErrorMessage').text('You must be logged in to leave a review!')
+                    $('#noteErrorMessage').text('You must be logged in as a client to leave a note!')
                 }
             } 
         })

@@ -273,7 +273,7 @@ $categories = $query->getAll('categories');
                 <button class="ml-2 text-gray-600 closeBooksCrudModal" type="button">Close</button>
             </form>
             <form id="editBookForm" class="hidden">
-                <span class="text-red-700 font-semibold hidden" id="addBookErrorMessage">All fields are required</span>
+                <span class="text-red-700 font-semibold hidden" id="editBookErrorMessage">All fields are required</span>
                 <div class="form-group">
                     <input type="text" placeholder="Title" class="form-control" name="title">
                     <span id="titleError" class="errorMessage text-red-700 font-semibold"></span>
@@ -315,7 +315,7 @@ $categories = $query->getAll('categories');
         <div class="bg-white p-8 rounded-lg w-2/5">
             <h2 class="text-2xl font-bold mb-4" id="categoriesModalTitle"></h2>
             <form id="addCategoryForm" class="hidden">
-                <span class="text-red-700 font-semibold hidden" id="addCategoriesError">All fields are required</span>
+                <span class="text-red-700 font-semibold hidden" id="addCategoriesErrorMessage">All fields are required</span>
                 <div class="form-group">
                     <input type="text" placeholder="Category name" class="form-control" name="category">
                 </div>
@@ -323,7 +323,7 @@ $categories = $query->getAll('categories');
                 <button class="ml-2 text-gray-600 closeCategoriesCrudModal" type="button">Close</button>
             </form>
             <form id="editCategoryForm" class="hidden">
-                <span class="text-red-700 font-semibold hidden" id="editCategoryErrorMessage">All fields are required</span>
+                <span class="text-red-700 font-semibold hidden" id="editCategoriesErrorMessage">All fields are required</span>
                 <div class="form-group">
                     <input type="text" class="form-control" name="category">
                     <span id="titleError" class="errorMessage text-red-700 font-semibold"></span>
@@ -340,7 +340,7 @@ $categories = $query->getAll('categories');
         <div class="bg-white p-8 rounded-lg w-2/5">
             <h2 class="text-2xl font-bold mb-4" id="authorsCrudModalTitle"></h2>
             <form id="addAuthorForm" class="hidden">
-                <span class="text-red-700 font-semibold hidden" id="addAuthorError">All fields are required</span>
+                <span class="text-red-700 font-semibold hidden" id="addAuthorErrorMessage">All fields are required</span>
                 <div class="form-group">
                     <input type="text" placeholder="First Name" class="form-control" name="firstName">
                 </div>
@@ -348,13 +348,13 @@ $categories = $query->getAll('categories');
                     <input type="text" placeholder="Last Name" class="form-control" name="lastName">
                 </div>
                 <div class="form-group">
-                    <input type="text" placeholder="Short Bio" class="form-control" name="shortBio">
+                    <textarea name="shortBio" placeholder="Short Bio" cols="30" rows="3" class="form-control"></textarea>
                 </div>
                 <button class="btn" type="submit">Submit</button>
                 <button class="ml-2 text-gray-600 closeAuthorsCrudModal" type="button">Close</button>
             </form>
             <form id="editAuthorForm" class="hidden">
-                <span class="text-red-700 font-semibold hidden" id="editAuthorError">All fields are required</span>
+                <span class="text-red-700 font-semibold hidden" id="editAuthorErrorMessage">All fields are required</span>
                 <div class="form-group">
                     <input type="text" placeholder="First Name" class="form-control" name="firstName">
                 </div>
@@ -362,7 +362,7 @@ $categories = $query->getAll('categories');
                     <input type="text" placeholder="Last Name" class="form-control" name="lastName">
                 </div>
                 <div class="form-group">
-                    <input type="text" placeholder="Short Bio" class="form-control" name="shortBio">
+                    <textarea name="shortBio" placeholder="Short Bio" cols="30" rows="3" class="form-control"></textarea>
                 </div>
                 <input type="text" name="authorId" hidden>
                 <button class="btn" type="submit">Submit</button>
